@@ -2,6 +2,11 @@ from TextProcessor import TextProcessor, Predition
 from flask import Flask, render_template, request
 import joblib
 
+
+def dummy_fun(doc):
+    return doc
+
+
 application = Flask(__name__)
 
 model_class_name = './models/model_classification.sav'
@@ -16,6 +21,7 @@ model_prediction = Predition(model_classification)
 
 @application.route('/', methods=['POST', 'GET'])
 def main():
+
     text = None
     result = None
     try:

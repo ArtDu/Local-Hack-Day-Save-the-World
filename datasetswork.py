@@ -1,12 +1,7 @@
-
-
+import joblib
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from collections import defaultdict
-import numpy as np  # linear algebra
-import pandas as pd  # data processing, CSV file I/O (e.g. pd.read_csv)
-
-import joblib
-
 from sklearn.metrics import accuracy_score
 import json
 import re
@@ -15,19 +10,16 @@ from nltk.corpus import stopwords
 # import pymorphy2
 from gensim.models import word2vec
 from sklearn.model_selection import train_test_split
-from datetime import datetime
 from nltk.stem import WordNetLemmatizer
-from sklearn.neighbors import KNeighborsClassifier
-
+from datetime import datetime
 from sklearn.cluster import DBSCAN
-
-lemmatizer = WordNetLemmatizer()
+import pandas as pd
+import numpy as np
 
 metadata = pd.read_csv('../HackatonData/metadata.csv')
+
 metadata.drop(metadata[(metadata.full_text_file.isnull()) | (
     metadata.pmcid.isnull()) | (metadata.url.isnull())].index, inplace=True)
-
-
 metadata.publish_time = metadata.publish_time.apply(pd.to_datetime)
 metadata = metadata[metadata.publish_time > datetime(2000, 1, 1)]
 
@@ -45,6 +37,7 @@ def deleted_symbol(text):
 
 
 def tokenize(text):
+    lemmatizer = WordNetLemmatizer()
     text = deleted_symbol(text)
 #     morph = pymorphy2.MorphAnalyzer()
     stop_words = set(stopwords.words('english')) | set(
@@ -129,14 +122,14 @@ class MeanVectorizer(object):
 data_analyse = metadata.loc[0:1000]
 texts_tokenizes = data_analyse.apply(analyse_text, axis=1)
 
+
 model_w2v = word2vec.Word2Vec(texts_tokenizes, size=300, window=10, workers=4)
 w2v = dict(zip(model_w2v.wv.index2word, model_w2v.wv.syn0))
 
+tfidf = TfIdfVectorizer(w2v).fit(texts_tokenizes)
+data_mean_tfidf = tfidf.transform(texts_tokenizes)
 
-data_mean_tfidf = TfIdfVectorizer(w2v).fit(
-    texts_tokenizes).transform(texts_tokenizes)
-
-clustering = DBSCAN(eps=4., min_samples=3).fit(data_mean_tfidf)
+clustering = DBSCAN(eps=4, min_samples=2).fit(data_mean_tfidf)
 labels = clustering.labels_
 labels[labels != -1] = 1
 
@@ -145,16 +138,24 @@ X = data_mean_tfidf
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
 
-
 neigh = KNeighborsClassifier(n_neighbors=3)
 neigh.fit(X_train, y_train)
-
 y_pred = neigh.predict(X_test)
 accuracy_score(y_test, y_pred)
 
+
+def dummy_fun(doc):
+    return doc
+
+
+tfidf = TfidfVectorizer(analyzer='word', tokenizer=dummy_fun,
+                        preprocessor=dummy_fun)
+tfidf = tfidf.fit(texts_tokenizes)
+
 model_class_name = './models/model_classification.sav'
 model_w2v_name = './models/model_w2v.sav'
-
+model_tfidf = './models/model_tfidf.sav'
 joblib.dump(neigh, model_class_name)
 joblib.dump(model_w2v, model_w2v_name)
-print('exit')
+joblib.dump(tfidf, model_tfidf)
+print('eixt')
