@@ -2,7 +2,7 @@ from TextProcessor import TextProcessor, Predition
 from flask import Flask, render_template, request
 import joblib
 
-app = Flask(__name__)
+application = Flask(__name__)
 
 model_class_name = './models/model_classification.sav'
 model_w2v_name = './models/model_w2v.sav'
@@ -14,8 +14,8 @@ text_processor = TextProcessor(model_w2v)
 model_prediction = Predition(model_classification)
 
 
-@app.route('/', methods=['POST', 'GET'])
-def hello_world():
+@application.route('/', methods=['POST', 'GET'])
+def main():
     text = None
     try:
         print(request.form)
