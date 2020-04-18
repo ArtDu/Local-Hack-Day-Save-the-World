@@ -1,8 +1,11 @@
 from flask import Flask, render_template, request
-app = Flask(__name__)
 
-@app.route('/', methods=['POST', 'GET'])
-def hello_world():
+
+application = Flask(__name__)
+
+
+@application.route('/', methods=['POST', 'GET'])
+def main():
   text = None
   try:
     print(request.form)
