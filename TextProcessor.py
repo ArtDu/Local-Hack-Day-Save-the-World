@@ -1,4 +1,3 @@
-from sklearn.feature_extraction.text import TfidfVectorizer
 from collections import defaultdict
 import numpy as np
 import pandas as pd
@@ -11,11 +10,11 @@ import nltk
 def deleted_symbol(text):
     pattern_end_html = r'</\w*>|<\w*>'
     pattern_start_html = r'<.*>|\n|\r|\r'
-    pattern = r"[^а-яА-Яa-zA-Z]"
+    pattern = r"[^a-zA-Z]"
     text = re.sub(pattern_end_html, ' ', text)
     text = re.sub(pattern_start_html, '', text)
 
-    text = re.sub("[^а-яА-Яa-zA-Z]", " ", text)
+    text = re.sub("[^a-zA-Z]", " ", text)
 
     return text
 
