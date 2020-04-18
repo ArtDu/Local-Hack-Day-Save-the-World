@@ -17,6 +17,7 @@ model_prediction = Predition(model_classification)
 @application.route('/', methods=['POST', 'GET'])
 def main():
     text = None
+    result = None
     try:
         print(request.form)
         if 'text' in request.form:
