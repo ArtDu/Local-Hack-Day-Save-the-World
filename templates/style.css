@@ -1,0 +1,37 @@
+.ctitle{
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+.cbar{
+  display: flex;
+  justify-content: flex-end;
+  height: 100%;
+}
+
+
+.form-group{
+  position: relative;
+}
+
+/*.form-group:active {
+    width: 70px;
+    height: 74px;
+}*/
+
+.fake{
+  display: none;
+  position: absolute;
+  z-index: 3;
+  font-size: 26px;
+  color: red;
+  left: 42%;
+  top: 33%;
+}
+
+.true{
+  color: green;
+}
+
+
