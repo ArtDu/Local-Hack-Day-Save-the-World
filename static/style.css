@@ -35,3 +35,8 @@
 }
 
 
+.fake_or_not{
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}

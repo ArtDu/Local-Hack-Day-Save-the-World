@@ -14,6 +14,7 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="../static/style.css">
 
 
 
@@ -29,7 +30,7 @@
     <div class="col-lg-6 col-lg-offset-3">
       <div class="form-group">
         <label>Paste article</label>
-        <textarea name="text" class="form-control" rows="3"></textarea>
+        <textarea required name="text" class="form-control" rows="3"></textarea>
         <button type="submit" class="btn btn-link">Check it</button>
         <div class="fake">FAKE</div>
         <div class="fake true">TRUE</div>
@@ -39,16 +40,13 @@
   
   
 
-  <div class="container">
+  <div class="container fake_or_not">
     {% if text %}
       <p>{{ text }}</p>
     {% endif %}
   </div>
 
-  <div class="container cbar">
-    <button type="button" class="btn btn-link">About</button>
-    <button type="button" class="btn btn-link">Contants</button>
-  </div>
+  
 
 </body>
 </html>
