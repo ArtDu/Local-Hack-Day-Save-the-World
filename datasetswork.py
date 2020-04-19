@@ -139,7 +139,7 @@ data_mean_tfidf = tfidf.transform(texts_tokenizes)
 clustering = DBSCAN(eps=4, min_samples=2).fit(data_mean_tfidf)
 labels = clustering.labels_
 labels[labels != -1] = 0
-labels[labels != -1] = 1
+labels[labels == -1] = 1
 y = labels
 X = data_mean_tfidf
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)

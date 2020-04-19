@@ -24,10 +24,13 @@ def main():
     try:
         print(request.form)
         if 'text' in request.form:
-            text = request.form['text']
-            print('analis')
-            ans = prediction.predict(text)
-            result = 'fake' if ans == 1 else 'non fake'
+            if text == '':
+                result = ''
+            else:
+                text = request.form['text']
+                print('analis')
+                ans = prediction.predict(text)
+                result = 'fake' if ans == 1 else 'non fake'
             # Ваш текст здесь
             # можете вызвать просто здесь вызвать вашу функцию питона,
             # которая будет всё делать с параметром text
